@@ -1,0 +1,160 @@
+R Markdown File
+---
+title: "MI3 Project 1"
+author: "David Bergman"
+date: "2023-09-18"
+output: html_document
+---
+## R Markdown
+
+Importing Packages
+```{r}
+#install.packages("wordcloud")
+#install.packages("wordcloud2")
+#install.packages("tm")
+library(tm)
+library(wordcloud)
+library(RColorBrewer)
+library(wordcloud2)
+```
+
+Importing Dataset
+```{r}
+library(readr)
+JEOPARDY<- read_csv("/Users/davidbergman/Downloads/JEOPARDY_CSV.csv")
+
+```
+
+
+
+
+Data Cleaning
+```{r}
+JEOPARDY$`Air Date` <- substr(JEOPARDY$`Air Date`, 1, 4)
+JEOPARDY$`Air Date` <- as.integer(JEOPARDY$`Air Date`)
+#View(JEOPARDY)
+
+text_data <- JEOPARDY$Question
+
+
+corpus <- Corpus(VectorSource(text_data))
+
+corpus <- tm_map(corpus, content_transformer(tolower))  # Convert to lowercase
+corpus <- tm_map(corpus, removePunctuation)            # Remove punctuation
+corpus <- tm_map(corpus, removeNumbers)                # Remove numbers
+corpus <- tm_map(corpus, removeWords, stopwords("en")) # Remove English stopwords
+corpus <- tm_map(corpus, stripWhitespace)              # Strip whitespace
+
+```
+
+WordCloud0
+```{r}
+#General word clouds
+#All years, 50 words, none removed
+wordcloud(words = corpus, max.words =20, random.order = FALSE, colors = brewer.pal(8,"Dark2"))
+
+#Removing some "useless" words
+corpus <- tm_map(corpus, removeWords, "targetblankherea")
+corpus <- tm_map(corpus, removeWords, "targetblankthisa")
+words_to_remove <- c("one","first","used","also","like","can","dont","name","named","called","new","said","may","known","became","made","clue","man", "said","type","part","last","seen","crew", "hrefhttpwwwjarchivecommediajjpg")
+corpus <- tm_map(corpus, removeWords, words_to_remove)
+wordcloud(words = corpus, max.words =20, random.order = FALSE, colors = brewer.pal(8,"Dark2"))
+```
+
+WordCloud1
+```{r}
+#1984-1991
+years_1_data <- JEOPARDY[JEOPARDY$`Air Date` >= 1984 & JEOPARDY$`Air Date` <= 1990, ]
+
+
+years_1_data_text <- years_1_data$Question
+
+
+subset_corpus <- Corpus(VectorSource(years_1_data_text))
+
+subset_corpus <- tm_map(subset_corpus, content_transformer(tolower))  # Convert to lowercase
+subset_corpus <- tm_map(subset_corpus, removePunctuation)            # Remove punctuation
+subset_corpus <- tm_map(subset_corpus, removeNumbers)                # Remove numbers
+subset_corpus <- tm_map(subset_corpus, removeWords, stopwords("en")) # Remove English stopwords
+subset_corpus <- tm_map(subset_corpus, stripWhitespace)              # Strip whitespace
+
+words_to_remove <- c("one","first","used","also","like","can","dont","name","named","called","new","said","may","known","became","made","clue","man", "said","type","part","last","seen", "whose","now","people","crew")
+subset_corpus <- tm_map(subset_corpus, removeWords, words_to_remove)
+
+
+wordcloud(words = subset_corpus, max.words =20, random.order = FALSE, colors = brewer.pal(8,"Dark2"))
+
+```
+
+WordCloud2
+```{r}
+#1991-1997
+years_2_data <- JEOPARDY[JEOPARDY$`Air Date` >= 1991 & JEOPARDY$`Air Date` <= 1997, ]
+
+
+years_2_data_text <- years_2_data$Question
+
+
+subset_corpus <- Corpus(VectorSource(years_2_data_text))
+
+subset_corpus <- tm_map(subset_corpus, content_transformer(tolower))  # Convert to lowercase
+subset_corpus <- tm_map(subset_corpus, removePunctuation)            # Remove punctuation
+subset_corpus <- tm_map(subset_corpus, removeNumbers)                # Remove numbers
+subset_corpus <- tm_map(subset_corpus, removeWords, stopwords("en")) # Remove English stopwords
+subset_corpus <- tm_map(subset_corpus, stripWhitespace)              # Strip whitespace
+
+words_to_remove <- c("one","first","used","also","like","can","dont","name","named","called","new","said","may","known","became","made","clue","man", "said","type","part","last","seen","largest","crew")
+subset_corpus <- tm_map(subset_corpus, removeWords, words_to_remove)
+
+
+wordcloud(words = subset_corpus, max.words =20, random.order = FALSE, colors = brewer.pal(8,"Dark2"))
+```
+
+WordCloud3
+```{r}
+#1998-2004
+years_3_data <- JEOPARDY[JEOPARDY$`Air Date` >= 1998 & JEOPARDY$`Air Date` <= 2004, ]
+
+
+years_3_data_text <- years_3_data$Question
+
+subset_corpus <- Corpus(VectorSource(years_3_data_text))
+
+
+subset_corpus <- tm_map(subset_corpus, content_transformer(tolower))  # Convert to lowercase
+subset_corpus <- tm_map(subset_corpus, removePunctuation)            # Remove punctuation
+subset_corpus <- tm_map(subset_corpus, removeNumbers)                # Remove numbers
+subset_corpus <- tm_map(subset_corpus, removeWords, stopwords("en")) # Remove English stopwords
+subset_corpus <- tm_map(subset_corpus, stripWhitespace)              # Strip whitespace
+
+words_to_remove <- c("one","first","used","also","like","can","dont","name","named","called","new","said","may","known","became","made","clue","man", "said","type","part","last","seen","crew")
+subset_corpus <- tm_map(subset_corpus, removeWords, words_to_remove)
+
+
+wordcloud(words = subset_corpus, max.words =20, random.order = FALSE, colors = brewer.pal(8,"Dark2"))
+```
+
+WordCloud4
+```{r}
+#2005-2012
+years_4_data <- JEOPARDY[JEOPARDY$`Air Date` >= 2005 & JEOPARDY$`Air Date` <= 2012, ]
+
+
+years_4_data_text <- years_4_data$Question
+
+subset_corpus <- Corpus(VectorSource(years_4_data_text))
+
+
+subset_corpus <- tm_map(subset_corpus, content_transformer(tolower))  # Convert to lowercase
+subset_corpus <- tm_map(subset_corpus, removePunctuation)            # Remove punctuation
+subset_corpus <- tm_map(subset_corpus, removeNumbers)                # Remove numbers
+subset_corpus <- tm_map(subset_corpus, removeWords, stopwords("en")) # Remove English stopwords
+subset_corpus <- tm_map(subset_corpus, stripWhitespace)              # Strip whitespace
+
+words_to_remove <- c("one","first","used","also","like","can","dont","name","named","called","new","said","may","known","became","made","clue","man", "said","type","part","last","seen","targetblankherea","targetblankthisa","get","crew")
+subset_corpus <- tm_map(subset_corpus, removeWords, words_to_remove)
+
+
+wordcloud(words = subset_corpus, max.words =20, random.order = FALSE, colors = brewer.pal(8,"Dark2"))
+
+```
